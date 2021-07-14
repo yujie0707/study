@@ -10,16 +10,37 @@
       padding: 0;
       margin: 0;
     }
+
+    .wrap {
+      display: flex;
+    }
+
+    .download {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <input type="file" id="input">
+  <a class="download" href="" download="灰度图.png">下载灰度图</a>
   <div class="wrap">
     <img id="img" src="">
     <img id="gray" src="">
   </div>
 
   <script>
+    function  dataURLtoBlob(dataurl) {
+    	const arr = dataurl.split(',');
+      const mime = arr[0].match(/:(.*?);/)[1];
+      const bstr = atob(arr[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+    	while (n--) {
+     		 u8arr[n] = bstr.charCodeAt(n);
+    	}
+    	return new Blob([u8arr], { type: mime });
+  	}
+
     const input = document.querySelector('#input');
 
     input.addEventListener('change', () => {
@@ -51,8 +72,15 @@
             pix[i + 2] = value;
           }
           ctx.putImageData(imageData, 0, 0);
+          const base64 = canvas.toDataURL({format: 'png', width: width, height: height });
+          gray.src = base64;
 
-          gray.src = canvas.toDataURL();
+          const link = document.querySelector('.download');
+          const blob = dataURLtoBlob(base64);
+          const objurl = URL.createObjectURL(blob);
+          link.href = objurl;
+          link.download = `灰度图${Date.now()}.png`;
+          link.style.display = 'inline-block';
         });
       })
     })
