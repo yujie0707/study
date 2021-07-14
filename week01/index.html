@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>将本地图片转化为灰度图</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <input type="file" id="input">
+  <div class="wrap">
+    <img id="img" src="">
+    <img id="gray" src="">
+  </div>
+
+  <script>
+    const input = document.querySelector('#input');
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.addEventListener('loadend', ({ target }) => {
+        const image = document.querySelector('#img');
+        const gray = document.querySelector('#gray')
+        image.src = target.result;
+        image.addEventListener('load', () => {
+          const { width, height } = image;
+          console.log(width, height);
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+
+          ctx.drawImage(image, 0, 0, width, height);
+
+          const imageData = ctx.getImageData(0, 0, width, height);
+          const pix = imageData.data;
+          for (let i = 0, n = pix.length; i < n; i += 4) {
+            const value = (21 * pix[i] + 71 * pix[i + 1] + 8 * pix[i + 2]) / 100;
+            pix[i] = value;
+            pix[i + 1] = value;
+            pix[i + 2] = value;
+          }
+          ctx.putImageData(imageData, 0, 0);
+
+          gray.src = canvas.toDataURL();
+        });
+      })
+    })
+  </script>
+</body>
+</html>
