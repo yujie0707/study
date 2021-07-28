@@ -2,32 +2,22 @@ const express = require('express')
 const app = express()
 const port = 3000
 const process = require('child_process');
+const fs = require('fs');
+const { resolve } = require('path');
 
 app.get('/base/test', (req, res) => {
-  console.log(req.query.html);
-  writeFile(req.query.html).then(() => {
-    process.execSync('cd ../code_run && npm run build');
-    // process.execSync('');
-    res.send('http://localhost:8000');
-  }).catch(() => {
-    res.send('写入文件错误');
-  })
+  fs.writeFileSync('../code_run/src/components/HelloWorld.vue', req.query.html);
+  process.execSync('npm run build', {
+    cwd: '../code_run',
+    maxBuffer: 20000 * 1024
+  });
+  res.send(`http://localhost:8000?random=${Math.random()}`);
+
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://127.0.0.1:${port}`)
 });
-
-const writeFile = (text) => new Promise((resolve, reject) => {
-  const fs = require('fs');
-  fs.writeFile('../code_run/src/components/HelloWorld.vue', text, 'utf8', (err) => {
-    if (err) {
-      reject(err);
-    } else {
-      resolve();
-    }
-  }) 
-})
 
 
 

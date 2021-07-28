@@ -23,7 +23,7 @@ export default {
       // 主要配置
       option: {
         value: html, // 编辑器的值
-        theme: 'vs', // 编辑器主题：vs, hc-black, or vs-dark，更多选择详见官网
+        theme: 'vs-dark', // 编辑器主题：vs, hc-black, or vs-dark，更多选择详见官网
         roundedSelection: false, // 右侧不显示编辑器预览框
         autoIndent: true, // 自动缩进
         language: 'html',
@@ -42,13 +42,11 @@ export default {
       this.monacoEditor = monaco.editor.create(this.$refs.container, this.option);
     },
 
-    submit() {
+    async submit() {
       const value = this.monacoEditor.getValue();
       console.log(value);
-      axios.get('/base/test', { params: { html: value } }).then((res) => {
-        this.src = res.data
-        // window.open(res.data);
-      });
+      const { data } = await axios.get('/base/test', { params: { html: value } });
+      this.src = data;
     },
   },
 };
@@ -67,8 +65,23 @@ body,
   height: 100%;
 }
 
+#app {
+  display: flex;
+}
+
+iframe {
+  height: 100%;
+  flex: 1;
+}
+
+button {
+  position: absolute;
+  top: 0;
+  left: 52%;
+}
+
 .monaco-editor {
   width: 50%;
-  height: 500px;
+  height: 100%;
 }
 </style>
