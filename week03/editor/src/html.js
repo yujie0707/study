@@ -1,0 +1,1 @@
+export default '<template><div> helloworld1 </div></template>';
