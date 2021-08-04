@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+时出现了 00，那么 \textit{nums}[i]nums[i] 一定为 00。此时，边 cc 需要满足 c < \textit{nums}[i] + \textit{nums}[j] = \textit{nums}[j]c<nums[i]+nums[j]=nums[j]，而下标在 [j + 1, n - 1][j+1,n−1] 范围内的元素一定都是大于等于 \textit{nums}[j]nums[j] 的，因此二分查找会失败。若二分查找失败，我们可以令 k = jk=j，此时对应的范围长度 k - j = 0k−j=0，我们也就保证了答案的正确性。
+
+</body>
+</html>

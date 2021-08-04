@@ -1,9 +1,6 @@
 
 <template>
-    <div>
-        <div>{{helloworld}}</div>
-        <div> what the fuck</div>
-    </div>
+    <div> {{helloworld}} </div>
 </template>
 
 <script>
@@ -17,5 +14,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+div {
+    color: red;
+    font-size: 50px;
+    text-align: right;
+}
 </style>
