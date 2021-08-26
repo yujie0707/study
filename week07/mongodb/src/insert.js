@@ -1,6 +1,6 @@
 const client = require('mongodb').MongoClient;
 
-const DB_CONNECTION_URL = 'mongodb://loaclhost:27017/local';
+const DB_CONNECTION_URL = 'mongodb://localhost:27017/local';
 
 const data = new Array(20).fill(0).map((item, index) => ({
   _id: index + 1,
@@ -9,6 +9,7 @@ const data = new Array(20).fill(0).map((item, index) => ({
 }));
 
 const insert = (db, cb) => {
+  db = db.db('local')
   const collection = db.collection('user');
   collection.insert(data, (err, result) => {
     if (err) {

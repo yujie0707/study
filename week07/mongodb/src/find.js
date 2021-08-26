@@ -1,12 +1,12 @@
 const client = require('mongodb').MongoClient;
 
-const DB_CONNECTION_URL = 'mongodb://loaclhost:27017';
+const DB_CONNECTION_URL = 'mongodb://localhost:27017/local';
 
 const find = (db, cb) => {
+  db = db.db('local');
   const collection = db.collection('user');
-  const where = { age: { $gte: 10 } };
-  const set = { age: 100 };
-  collection.find(where, set).toArray((err, result) => {
+  const where = { age: { $gte: 50 } };
+  collection.find(where).toArray((err, result) => {
     if (err) {
       console.log(err);
       return;
